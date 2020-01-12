@@ -1,0 +1,98 @@
+body{
+    color: gray();
+}
+
+/*base.html里的header*/
+.logo-margin-top{
+   /* transform: translateY(30%);*/
+}
+
+.nav-margin-top{ /*导航栏离网页最上方的距离*/
+    transform: translateY(80%);
+}
+
+.user-margin-top{
+    transform: translateY(40%);
+}
+/*base.html里的header*/
+
+#landing-row{
+    margin-top: 300px;
+}
+
+.row-larger{ /*要比栅格系统的行间距更大的行间距*/
+    margin-top: 80px;
+}
+
+.text-padding { /*基本上用于菱形背景的row，里面的text元素和背景的边距*/
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 100px;
+}
+
+.footer{ /*页脚*/
+    margin-top: 100px;
+    padding-top: 80px;
+    color: white;
+    text-align: center;
+    background-image: url("../img/footer.png");
+    background-size: contain;
+}
+
+.no-display{
+    display: none;
+}
+
+.city-bg{
+    background-image: url("../img/landing-bg.png");
+    background-size: cover;
+}
+
+.diamond-bg{
+    background-image: url("../img/sign-header.png");
+    background-size: contain;
+}
+
+.btn-project{ /*用于一个项目的加入、关闭、编辑、继续认领等按钮*/
+    margin-top: 80px;
+    margin-bottom: 50px;
+    font-size: 20px;
+    width: 150px;
+}
+
+.btn-modal-footer{ /*模态对话框的footer按钮*/
+    width: 80px;
+}
+
+.project-list-gap{ /*项目列表里的项目名称*/
+    margin-bottom: 20px;
+}
+
+.text-lighter{ /*颜色略浅的提示信息*/
+    color: gray;
+}
+
+.indent{
+    padding-left: 20px;
+}
+
+.description-overflow{
+    position:relative;
+    line-height:1.4em;
+    /* 3 times the line-height to show 3 lines */
+    height:4.2em;
+    overflow:hidden;
+}
+
+.description-overflow::after {
+    content:"...";
+    font-weight:bold;
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding:0 20px 1px 45px;
+}
+
+.danger-text{
+    color: firebrick;
+}

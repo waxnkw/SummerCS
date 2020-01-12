@@ -1,0 +1,143 @@
+<!--
+众包工人参与的某一个项目的详细信息
+-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Summer Crowd Sourcing | Project</title>
+
+    <!--CDN-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--Other css-->
+    <link rel="stylesheet" href="/css/public.css">
+
+    <!--Other js-->
+    <script src="/js/worker-project-details.js"></script>
+    <script src="/js/global-functions.js"></script>
+    <script src="/plugin/jcanvas/jCanvas.min.js"></script>
+    <script src="/plugin/jcanvas/jCanvas-handles.min.js"></script>
+    <script src="/plugin/cookie/jquery.cookie.js"></script>
+</head>
+<body>
+    <div th:include="base :: header"></div>
+
+    <div class="container">
+        <div class="row row-larger diamond-bg">
+            <div class="col-md-8">
+                <h1 class="text-padding" id="project-name" th:attr="name=${projectId}"></h1> <!--项目名-->
+            </div>
+            <div class="col-md-2"> <!--开始工作按钮-->
+                <button id="start-work-btn" class="btn btn-default btn-project">Start work</button>
+            </div>
+            <div class="col-md-2"> <!--提交/认领更多图片按钮-->
+                <button id="task-btn" class="btn btn-primary btn-project" data-toggle="modal" data-target="#submit-now-modal">Submit now</button>
+            </div>
+            <!--选择认领图片数量的模态对话框-->
+            <div class="modal fade" id="claim-more-modal" tabindex="-1" role="dialog" aria-labelledby="join-modal-label" arial-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Claim more tasks</h4>
+                        </div>
+
+                        <!--对话框内容-->
+                        <div class="modal-body">
+                            <label for="claim-number-text">Please enter the number of pictures you want to claim</label>
+                            <input id="claim-number-text" type="text"/>
+                            <p>There are <span class="image-left"></span> images left for you.</p>
+                            <div id="claim-number-error" class="alert alert-danger no-display"> <!--输入非法内容时的警告框-->
+                                Please input a positive integer smaller than <span class="image-left"></span>!
+                            </div>
+                        </div>
+                        <!--对话框内容-->
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-modal-footer" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary btn-modal-footer" id="claim-more-btn">Confirm</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!--选择认领图片数量的模态对话框-->
+
+            <!--提交当前这些图片的对话框-->
+            <div class="modal fade" id="submit-now-modal" tabindex="-1" role="dialog" aria-labelledby="join-modal-label" arial-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Submit current pictures</h4>
+                        </div>
+
+                        <!--对话框内容-->
+                        <div class="modal-body">
+                            <h3>Are you sure to submit these pictures?</h3>
+                            <p class="text-lighter">If you submit these pictures, you can never edit them again. They will disappear from the page and be estimated.
+                            You will be earned credits according to this project's rewarding method. If these pictures contains ones that are
+                                not marked, they will earn you 0 credits.</p>
+                        </div>
+                        <!--对话框内容-->
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-modal-footer" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary btn-modal-footer" id="submit-now-btn">Submit</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!--提交当前这些图片的对话框-->
+
+        </div>
+
+        <hr/>
+
+        <div class="row row-larger">
+            <p id="project-description"></p> <!--项目描述-->
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="container">
+        <input id="img-num" type="hidden" value="0">
+        <input type="hidden" id="current-pic-pointer" value="0">
+        <div id="project-pic" ></div> <!--项目图片-->
+
+        <div class="row">
+            <ul class="pager">
+                <li class="previous"><button id="pic-previous" class="btn btn-default btn-disabled" disabled><span class="glyphicon glyphicon-arrow-left"></span></button></li>
+                <li class="next"><button id="pic-next" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></li>
+            </ul>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="container"> <!--此项目可视化信息-->
+        <div class="row"> <!--该用户在此项目中目前的积分-->
+            <canvas id="current-credits-canvas" width="1200" height="200"></canvas>
+        </div>
+
+        <div class="row">  <!--该项目积分排名-->
+            <h4>My Ranking: <span id="my-ranking">0</span></h4>
+
+            <input type="hidden" id="current-ranking-pointer" value="0">
+            <div id="ranking-list"></div>
+
+            <ul class="pager">
+                <li class="previous"><button id="ranking-previous" class="btn btn-default btn-disabled" disabled><span class="glyphicon glyphicon-arrow-left"></span></button></li>
+                <li class="next"><button id="ranking-next" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div th:include="base :: footer"></div>
+</body>
+</html>

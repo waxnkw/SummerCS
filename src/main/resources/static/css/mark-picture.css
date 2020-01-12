@@ -1,0 +1,22 @@
+body{
+
+}
+
+selector{
+    margin-top: 30px;
+}
+
+#scrollable{
+    background-color: black;
+}
+
+.picture:hover{
+    border: 3px rgb(235, 186, 199);
+}
+
+.col-larger{
+    margin-left: 80px;
+}
+
+
+

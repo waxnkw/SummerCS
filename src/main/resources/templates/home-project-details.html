@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Summer crowd sourcing | Project</title>
+
+    <!--CDN-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--Other css-->
+    <link rel="stylesheet" href="/css/public.css">
+
+    <!--Other js-->
+    <script src="/js/global-functions.js"></script>
+    <script src="/js/home-project-details.js"></script>
+    <script src="/plugin/cookie/jquery.cookie.js"></script>
+</head>
+<body>
+    <div th:include="base :: header"></div>
+
+    <div class="container">
+        <div class="row row-larger diamond-bg">
+            <div class="col-md-8">
+                <h1 class="text-padding" id="project-name" th:name="${projectId}"></h1> <!--项目名-->
+            </div>
+            <div class="col-md-4">
+                <button id="join-in-btn" class="btn btn-primary btn-project" data-toggle="modal" data-target="#join-modal">Join in</button>
+            </div>
+            <!--选择认领图片数量的模态对话框-->
+            <div class="modal fade" id="join-modal" tabindex="-1" role="dialog" aria-labelledby="join-modal-label" arial-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Join in the project</h4>
+                        </div>
+
+                        <!--对话框内容-->
+                        <div class="modal-body">
+                            <label for="claim-number-text">Please enter the number of pictures you want to claim</label>
+                            <input id="claim-number-text" type="text"/>
+                            <p>There are <span class="image-left"></span> images left for you.</p>
+                            <div id="claim-number-error" class="alert alert-danger no-display"> <!--输入非法内容时的警告框-->
+                                Please input a positive integer smaller than <span class="image-left"></span>!
+                            </div>
+                        </div>
+                        <!--对话框内容-->
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-modal-footer" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary btn-modal-footer" id="join-pro-btn">Confirm</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!--选择认领图片数量的模态对话框-->
+        </div>
+
+        <hr/>
+
+        <div class="row row-larger">
+            <p id="project-description"></p> <!--项目描述-->
+        </div>
+
+        <hr/>
+
+        <div class="container"><!--项目图片-->
+            <input type="hidden" id="current-pic-pointer" value="0">
+            <div id="project-pic"></div>
+
+            <div class="row"> <!--图片分页器-->
+                <ul class="pager">
+                    <li class="previous"><button id="pic-previous" class="btn btn-default btn-disabled" disabled><span class="glyphicon glyphicon-arrow-left"></span></button></li>
+                    <li class="next"><button id="pic-next" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr/>
+
+        <!--可视化数据区-->
+        <div class="container">
+            <div class="row"> <!--文字指示项目进度-->
+                <div class="col-md-10">
+                    <h4>Progress</h4>
+                </div>
+                <div class="col-md-2">
+                    <h6 id="progress-number">0/0</h6>
+                </div>
+            </div>
+            <div class="row"> <!--进度条-->
+                <div class="progress">
+                    <div id="progressbar" class="progress-bar" role="progressbar" aria-valuenow="0"
+                         aria-valuemin="0" aria-valuemax="100" style="width: 0;">
+                        <span id="completed-text">0% completed</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="row">  <!--该项目积分排名-->
+                <h4>Ranking list</h4>
+
+                <input type="hidden" id="current-ranking-pointer" value="0">
+                <div id="ranking-list"></div>
+
+                <ul class="pager">
+                    <li class="previous"><button id="ranking-previous" class="btn btn-default btn-disabled" disabled><span class="glyphicon glyphicon-arrow-left"></span></button></li>
+                    <li class="next"><button id="ranking-next" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></li>
+                </ul>
+            </div>
+        </div>
+        <!--可视化数据区-->
+
+    </div>
+
+    <div th:include="base :: footer"></div>
+</body>
+</html>

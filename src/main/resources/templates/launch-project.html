@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Summer Crowd Sourcing | Launch</title>
+
+    <!--CDN-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--Other css-->
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" media="all" href="/plugin/fileUpload/css/fileinput.css">
+
+    <!--Other js-->
+    <script src="/js/launch-project.js"></script>
+    <script src="/plugin/fileUpload/js/fileinput.js" type="text/javascript"></script>
+    <script src="/plugin/cookie/jquery.cookie.js"></script>
+</head>
+<body>
+    <div th:include="base :: header"></div>
+
+    <div class="container">
+        <div class="row row-larger diamond-bg">
+            <h1 class="text-padding">Launch your own project</h1>
+        </div>
+        <hr/>
+
+        <div class="row"> <!--项目名称-->
+            <label>Project name:<span id="current-length">0</span>/50</label>
+            <input id="pro-name-input" name="proName" class="form-control" type="text" placeholder="Less than 50 letters..." maxlength="50">
+        </div>
+        <hr/>
+
+        <div class="row"> <!--项目描述-->
+            <label>Project description:</label>
+            <textarea id="pro-description-textarea" rows="8"  class="form-control"
+                      placeholder="Please describe your project and specify the constraints of tags."></textarea>
+        </div>
+        <hr/>
+
+        <div class="row"> <!--选择积分奖励-->
+            <label>Please choose a rewarding mode:</label>
+        </div>
+
+        <!--无评价积分奖励选项-->
+        <div class="row">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="reward-choices" th:value="reward-anyway">
+                    <em>Reward anyway</em>
+                </label>
+            </div>
+            <p class="text-lighter">
+                If you choose this rewarding mode, you can set the amount of credits to reward the worker for each picture
+                they mark. Pay attention that under this mode, the credits will be rewarded to the workers without estimating
+                the quality of their work. Only choose this if you know what you are doing.
+            </p>
+            <fieldset disabled class="form-horizontal" id="reward-anyway-fieldset">
+                <div class="col-md-4">
+                    <label class="indent text-lighter" for="reward-anyway-credit" id="reward-anyway-fieldset-label">The credits each picture will be rewarded:</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="reward-anyway-credit">
+                </div>
+                <div class="col-md-3">
+                    <p id="reward-anyway-credit-alert" class="danger-text no-display">You must input an integer!</p>
+                </div>
+            </fieldset>
+        </div>
+        <!--无评价积分奖励选项-->
+
+        <!--自动评价积分奖励选项-->
+        <div class="row">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="reward-choices" th:value="auto-estimate" checked>
+                    <em>Auto estimate (recommended)</em>
+                </label>
+            </div>
+            <p class="text-lighter">
+                Under this mode, the system will automatically estimate the quality of the work and divide the quality into three
+                levels: excellent, good and under average. You can decide how much credits to reward for each level. Please  fill in
+                the textfield below.
+            </p>
+            <fieldset class="indent form-horizontal" id="auto-estimate-fieldset">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="excellent-credit" class="auto-estimate-fieldset-label">Excellent:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" id="excellent-credit" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <p id="auto-estimate-excellent-alert" class="danger-text no-display">You must input an integer!</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="good-credit" class="auto-estimate-fieldset-label">Good:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" id="good-credit" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <p id="auto-estimate-good-alert" class="danger-text no-display">You must input an integer!</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="under-average-credit" class="auto-estimate-fieldset-label">Under average:</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" id="under-average-credit" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <p id="auto-estimate-underaverage-alert" class="danger-text no-display">You must input an integer!</p>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <!--自动评价积分奖励选项-->
+
+        <!--每张图片的标记人数，这是每个奖励模式下都有的-->
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-5">
+                    <label for="each-pic-marker">
+                        How many workers do you want each picture to be marked by?
+                    </label>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="each-pic-marker" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <p id="each-pic-marker-alert" class="danger-text no-display">You must input an integer!</p>
+                </div>
+            </div>
+        </div>
+        <!--每张图片的标记人数，这是每个奖励模式下都有的-->
+
+        <hr/>
+
+        <div class="row"> <!--提交按钮-->
+            <div id="launch-alert" class="alert alert-danger no-display">Please fill in all the blanks correctly!</div>
+            <button id="launch-btn" class="btn btn-primary" type="button">Launch</button>
+        </div>
+
+    </div>
+
+    <div th:include="base :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Summer Crowd Sourcing | Do your work</title>
+
+    <!--CDN-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--Other css-->
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/mark-picture.css">
+
+    <!--Other js-->
+    <script src="/js/global-functions.js"></script>
+    <script src="/js/mark-picture.js"></script>
+    <script src="/plugin/jcanvas/jCanvas.min.js"></script>
+    <script src="/plugin/jcanvas/jCanvas-handles.min.js"></script>
+    <script src="/plugin/cookie/jquery.cookie.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <input id="project-id" type="hidden" th:value="${projectId}">
+    <input id="img-num" type="hidden" th:value="${imgNum}">
+
+    <!--上方图片选择栏-->
+    <div id="scrollable" class="row">
+        <div class="row">
+            <div class="col-md-2">
+                <!--分页器-->
+                <ul class="pager">
+                    <li class="previous"><button id="pic-previous" class="btn btn-default btn-disabled" disabled><span class="glyphicon glyphicon-arrow-left"></span></button></li>
+                    <li class="next"><button id="pic-next" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button></li>
+                </ul>
+                <!--分页器-->
+
+                <input type="hidden" value="0" id="current-pic-pointer">
+            </div>
+        </div>
+
+        <div id="picture-list" class="row pre-scrollable"></div> <!--图片区-->
+    </div>
+    <!--上方图片选择栏-->
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="btn-group"> <!--可在画布上进行的操作的按钮-->
+                        <button id="slide-btn" class="btn btn-default"><img src="/img/pictures.png" width="30px" height="30px"></button>
+                        <button id="single-square" class="btn btn-default"><img src="/img/single-square.png" width="30px" height="30px"></button>
+                        <button id="multi-square" class="btn btn-default"><img src="/img/multi-square.png" width="30px" height="30px"></button>
+                        <button id="point" class="btn btn-default"><img src="/img/point.png" width="30px" height="30px"></button>
+                        <button id="eraser" class="btn btn-default"><img src="/img/eraser.png" width="30px" height="30px"></button>
+                        <div class="btn-group">
+                            <button id="add-tag" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><img src="/img/add-tag.png" width="30px" height="30px"></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="add-tag">
+                                <li><label>Tag:</label></li>
+                                <li><textarea id="tag-content" class="form-control"></textarea></li>
+                                <li><button id="add-tag-btn" class="btn btn-primary btn-block" type="button">Add tag</button></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button id="add-sentence" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><img src="/img/sentence.png" width="30px" height="30px"></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="add-sentence">
+                                <li><label>Sentence:</label></li>
+                                <li><textarea id="sentence-content" class="form-control"></textarea></li>
+                                <li><button id="add-sentence-btn" class="btn btn-primary btn-block" type="button">Add sentence</button></li>
+                            </ul>
+                        </div>
+                        <button id="save-btn" class="btn btn-default"><img src="/img/save.png" width="30px" height="30px"></button>
+                    </div>
+                </div>
+                <div class="panel-body" style="height: 650px; width: 100%; overflow: auto">
+                    <p id="mode-prompt"></p>
+                    <div id="save-prompt" class="alert alert-warning no-display">
+                        The modifications haven't been saved. Do you want to save it?
+                        <button id="save-prompt-yes-btn" class="btn btn-default">Yes</button>
+                        <button id="save-prompt-no-btn" class="btn btn-default">No</button>
+                    </div>
+                    <canvas id="mark-canvas" width="3000" height="2000"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="tag-list" class="col-md-2" style="height: 650px; overflow: auto"></div> <!--标签列表-->
+    </div>
+</div>
+
+</body>
+</html>

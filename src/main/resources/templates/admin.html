@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Summer Crowd Sourcing | Admin</title>
+
+    <!--CDN-->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--Other css-->
+    <link rel="stylesheet" href="/plugin/pieChart/pieChart.css">
+    <link rel="stylesheet" href="/css/public.css">
+
+    <!--Other js-->
+    <script src="/js/admin.js"></script>
+    <script src="/plugin/pieChart/pieChart.js"></script>
+    <script src="/plugin/cookie/jquery.cookie.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row logo-margin-top">
+            <img src="/img/logo.png">
+        </div>
+
+        <div class="page-header">
+            <h1>Welcome administrator
+                <small id="username">username</small>
+            </h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Total number of users: </h3>
+            </div>
+            <div class="col-md-2">
+                <h3 id="total-user-num">0</h3>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+            <div class="col-md-1">
+                <h3>Projects</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7">
+                <canvas id="chart" width="600" height="500"></canvas>
+            </div>
+
+            <div class="col-md-4">
+                <table id="chartData">
+
+                    <tr>
+                        <th>Project state</th>
+                        <th>Number</th>
+                    </tr>
+
+                    <tr style="color: sandybrown">
+                        <td>Done</td>
+                        <td id="done-num"></td>
+                    </tr>
+
+                    <tr style="color: rosybrown">
+                        <td>Doing</td>
+                        <td id="doing-num"></td>
+                    </tr>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div th:include="base :: footer"></div>
+</body>
+</html>
